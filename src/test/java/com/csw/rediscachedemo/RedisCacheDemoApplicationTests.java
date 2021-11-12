@@ -28,6 +28,7 @@ class RedisCacheDemoApplicationTests {
         User user = userService.selectUserById(userId);
         user.setName("小xiao");
        User user0= userService.updateUser(user);
+        System.out.println(user0);
     }
 
     @Test

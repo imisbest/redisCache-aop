@@ -4,6 +4,7 @@ import com.csw.rediscachedemo.entity.User;
 
 import java.util.List;
 
+
 public interface UserService {
     void insertUser(User user);
 

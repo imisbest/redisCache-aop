@@ -44,18 +44,18 @@ public class CacheRemoveAspect {
         //获得注解
         Caching caching = method.getAnnotation(Caching.class);
         CacheEvict[] evict = caching.evict();
-        for (int i = 0; i < evict.length; i++) {
-            String key = evict[i].key();
+        for (CacheEvict cacheEvict : evict) {
+            String key = cacheEvict.key();
             char c = key.charAt(key.length() - 2);
             if ("*".equals(c + "")) {
                 //获取前缀命名空间
                 CacheConfig annotation = target.getClass().getAnnotation(CacheConfig.class);
                 String[] strings = annotation.cacheNames();
-                String cacheNBames = strings[0];
+                String cacheNames = strings[0];
                 //获取后缀方法名
                 String substring1 = key.substring(1, key.length() - 1);
                 System.out.println(substring1);
-                String resKeys = cacheNBames + "::" + substring1;
+                String resKeys = cacheNames + "::" + substring1;
                 Set<String> keys = stringRedisTemplate.keys(resKeys);
                 assert keys != null;
                 stringRedisTemplate.delete(keys);
