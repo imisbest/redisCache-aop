@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -21,6 +23,7 @@ import java.util.Set;
 @Component
 @Aspect
 public class CacheRemoveAspect {
+    private static final Logger logger = LoggerFactory.getLogger(CacheRemoveAspect.class);
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -28,6 +31,7 @@ public class CacheRemoveAspect {
     //截获标有@DeleteAnnotation的方法
     @Pointcut(value = "(execution(* *.*(..)) && @annotation(com.csw.rediscachedemo.annotation.DeleteAnnotation))")
     private void pointcut() {
+        logger.info("" + "请不要输入空方法");
     }
 
     /**
@@ -54,7 +58,7 @@ public class CacheRemoveAspect {
                 String cacheNames = strings[0];
                 //获取后缀方法名
                 String substring1 = key.substring(1, key.length() - 1);
-                System.out.println(substring1);
+                logger.info("" + substring1);
                 String resKeys = cacheNames + "::" + substring1;
                 Set<String> keys = stringRedisTemplate.keys(resKeys);
                 assert keys != null;

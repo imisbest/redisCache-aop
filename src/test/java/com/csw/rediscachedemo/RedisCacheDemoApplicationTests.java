@@ -3,6 +3,8 @@ package com.csw.rediscachedemo;
 import com.csw.rediscachedemo.entity.User;
 import com.csw.rediscachedemo.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -11,6 +13,7 @@ import java.util.UUID;
 
 @SpringBootTest
 class RedisCacheDemoApplicationTests {
+    private static final Logger logger = LoggerFactory.getLogger(RedisCacheDemoApplicationTests.class);
     @Autowired
     private UserService userService;
 
@@ -28,7 +31,7 @@ class RedisCacheDemoApplicationTests {
         User user = userService.selectUserById(userId);
         user.setName("小xiao");
        User user0= userService.updateUser(user);
-        System.out.println(user0);
+        logger.info("" + user0);
     }
 
     @Test
@@ -41,14 +44,14 @@ class RedisCacheDemoApplicationTests {
     void select() {
         String userId = "f95733c21df8483b908405e7ba68fbf3";
         User user = userService.selectUserById(userId);
-        System.out.println(user);
+        logger.info("" + user);
     }
 
     @Test
     void selectAll() {/*单表集合带参查询*/
         String userId = "f95733c21df8483b908405e7ba68fbf3";
         List<User> userList = userService.selectAllUser(userId);
-        System.out.println(userList);
+        logger.info("" + userList);
 
     }
 
@@ -56,7 +59,7 @@ class RedisCacheDemoApplicationTests {
     void selectTable() {//模拟是联表集合，测试，多个keys匹配删除
         String userId = "f95733c21df8483b908405e7ba68fbf3";
         List<User> userList = userService.selectTable(userId);
-        System.out.println(userList);
+        logger.info("" + userList);
 
     }
 
